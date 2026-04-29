@@ -94,6 +94,10 @@ const props = defineProps<{
       background-color: darken($primary-color, 10%);
     }
   }
+  &.outlined {
+    border: 1px solid $border-color !important;
+    background: transparent;
+  }
   &.disabled {
     background-color: $border-color;
     color: $text-secondary;

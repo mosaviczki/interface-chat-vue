@@ -6,7 +6,7 @@ import img5 from "@/assets/img/img5.jpg";
 import img6 from "@/assets/img/img6.jpg";
 import img7 from "@/assets/img/img7.jpg";
 import img8 from "@/assets/img/img8.jpg";
-import { ConverstionType } from "@/types/conversation";
+import type { ConverstionType } from "@/types/conversation";
 
 const avatars = [img1, img2, img3, img4, img5, img6, img7, img8];
 

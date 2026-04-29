@@ -6,6 +6,7 @@
       size,
       disabled ? 'disabled' : '',
       border ? 'border' : '',
+      outlined ? 'outlined' : 'container'
     ]"
   >
     <img
@@ -24,6 +25,7 @@
       "
       :disabled="disabled"
       :value="value"
+      :placeholder="placeholder"
       @input="handleInput ? handleInput($event.target.value) : null"
     />
     <img v-if="endIcon" :src="endIcon" alt="End Icon" class="end-icon" />
@@ -45,10 +47,12 @@ import BaseButton from "@/components/base/BaseButton.vue";
 
 defineProps<{
   variant?: "text" | "password" | "email" | "search";
+  outlined?: boolean;
   size?: "lg" | "md" | "sm";
   disabled?: boolean;
   border?: boolean;
   value?: string;
+  placeholder?: string;
   startIcon?: string;
   endIcon?: string;
   onClear?: () => void;
@@ -61,10 +65,16 @@ defineProps<{
   width: 100%;
   display: flex;
   align-items: center;
-  background-color: $secondary-color;
+  
   border-radius: $radius;
   gap: 7px;
   padding: 8.5px 10.5px;
+}
+.base-input-wrapper.outlined {
+  background-color: transparent !important;
+}
+.base-input-wrapper.container {
+  background-color: $secondary-color;;
 }
 .base-input-wrapper.border {
   border: 1px solid $border-color;

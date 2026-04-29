@@ -1,5 +1,5 @@
-import { LastMessageType, MessageType } from "./message";
-import { UserType } from "./user";
+import type { LastMessageType, MessageType } from "./message";
+import type { UserType } from "./user";
 
 export type ConverstionType = {
   id: number;

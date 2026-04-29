@@ -1,26 +1,58 @@
 <template>
-  <div class="custom-chat-message" :class="`alignment-${alignment}`">
-    <img src="{user.image}" alt="{user.name}" class="img-user" />
-    <div class="message-content">
-      <p class="user-name">{user.name}</p>
-      <div class="message-content">
-        <p>{message}</p>
+  <div class="custom-chat-container">
+    <div v-for="message in messages" :key="message.id">
+      <div
+        v-if="message.senderId === 'me'"
+        class="custom-chat-message alignment-right"
+      >
+        <img :src="myAvatar" alt="Roberto Silva" class="img-user" />
+        <div class="message-content">
+          <p class="user-name">Roberto Silva</p>
+          <div class="message-bubble">
+            <p>{{ message.text }}</p>
+          </div>
+          <span class="timestamp">{{ message.createdAt }}</span>
+        </div>
       </div>
-      <span class="timestamp">{timestamp}</span>
+      <div v-else class="custom-chat-message alignment-left">
+        <img :src="user.avatar" :alt="user.name" class="img-user" />
+        <div class="message-content">
+          <p class="user-name">{{ user.name }}</p>
+          <div class="message-bubble">
+            <p>{{ message.text }}</p>
+          </div>
+          <span class="timestamp">{{ message.createdAt }}</span>
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-defineProps<{
+import { computed } from "vue";
+import myAvatar from "@/assets/img/img9.jpg";
+
+const props = defineProps<{
   user: {
     name: string;
     image: string;
-  };
-  message: string;
-  timestamp: string;
-  alignment?: "left" | "right";
+  }
+  messages: {
+    id: number;
+    senderId: string;
+    senderName: string;
+    text: string;
+    createdAt: string;
+  }[];
 }>();
+
+const userAvatar = computed(() => {
+  return "";
+});
+
+const senderName = computed(() => {
+  return "Usuário";
+});
 </script>
 
 <style lang="scss" scoped>
@@ -34,9 +66,12 @@ defineProps<{
   flex-direction: row;
 
   .message-content {
-    background-color: $secondary-color;
-    border: 1px solid $border-color;
-
+    .message-bubble {
+      background-color: $secondary-color;
+      border: 1px solid $border-color;
+      border-radius: $radius;
+      padding: 7px 10.5px;
+    }
     p {
       font-size: $font-size-md;
       color: $text-secondary;
@@ -49,8 +84,12 @@ defineProps<{
   flex-direction: row-reverse;
 
   .message-content {
-    background-color: $contrast-color;
-    border: 1px solid $contrast-color;
+    .message-bubble {
+      background-color: $contrast-color;
+      border: 1px solid $contrast-color;
+      border-radius: $radius;
+      padding: 7px 10.5px;
+    }
 
     p {
       font-size: $font-size-md;

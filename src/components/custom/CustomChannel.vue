@@ -1,6 +1,6 @@
 <template>
   <div class="custom-channel" v-for="conversations in store.conversations.filter(c => !c.archived)" :key="conversations.id">
-    <CustomChannelListMessage
+    <CustomChannelList
       :name="conversations.contact.name"
       :lastMessage="conversations.lastMessage"
       :imageUser="conversations.contact.avatar"
@@ -11,22 +11,14 @@
 </template>
 
 <script setup lang="ts">
-import CustomChannelListMessage from "@/components/custom/CustomChannelListMessage.vue";
-import ImageUser from "@/assets/img/img1.jpg";
+import CustomChannelList from "@/components/custom/CustomChannelList.vue";
 import { useChatStore } from '@/stores/chatStore'
 
 const store = useChatStore()
 
-defineProps<{
-  channel: {
-    id: string | number;
-  };
-}>();
-
 defineEmits<{
   (e: "select-channel", id: string | number): void;
 }>();
-
 </script>
 
 <style lang="scss" scoped>

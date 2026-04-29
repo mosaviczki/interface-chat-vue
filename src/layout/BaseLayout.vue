@@ -12,6 +12,5 @@ import Sidebar from '@/components/custom/CustomSidebar.vue';
 <style lang="scss" scoped>
 .main-content {
   flex: 1;
-  padding: 20px;
 }
 </style>

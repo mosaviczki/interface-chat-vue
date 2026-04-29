@@ -1,10 +1,10 @@
 <template>
   <div class="custom-chat-header">
     <div class="user-info">
-      <img src="{user.image}" alt="{user.name}" class="chat-user-image" />
-      <h1>{user.name}</h1>
+      <img :src="user.avatar" :alt="user.name" class="chat-user-image" />
+      <h1>{{ user.name }}</h1>
     </div>
-    <BaseButton variant="text" size="lg" startIcon="ArchiveIcon">
+    <BaseButton variant="outlined" size="lg" :startIcon="ArchiveIcon">
       <p>Arquivar</p>
     </BaseButton>
   </div>
@@ -25,7 +25,7 @@ defineProps<{
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 16px;
+  padding: 19px 16px;
   border-bottom: 1px solid $border-color;
 
   .user-info {
@@ -47,3 +47,4 @@ defineProps<{
     }
   }
 }
+</style>

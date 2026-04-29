@@ -2,27 +2,29 @@
   <div class="custom-chat-input">
     <div class="input-area">
       <BaseInput
+        class="chat-input-field"
         variant="text"
-        size="md"
-        placeholder="Digite sua mensagem..."
+        border
+        outlined
+        placeholder="Escreva uma mensagem"
         :value="message"
-        @input="$emit('input', $event)"
+        @input="message = $event"
       />
 
       <BaseButton variant="icon" size="md" @click="$emit('attach')">
-        <img src="{AttachIcon}" alt="Anexar" />
+        <img :src="AttachIcon" alt="Anexar" />
       </BaseButton>
       <BaseButton
         variant="text"
         size="md"
-        startIcon="SendIcon"
+        :startIcon="SendIcon"
         @click="$emit('send')"
       >
         <p>Enviar</p>
       </BaseButton>
     </div>
     <p>
-      {message.length}/2000 caracteres | Shift + Enter para adicionar uma nova
+      {{ message.length }}/2000 caracteres | Shift + Enter para adicionar uma nova
       linha
     </p>
   </div>
@@ -31,6 +33,7 @@
 <script setup lang="ts">
 import SendIcon from "@/assets/svg/send-icon.svg";
 import AttachIcon from "@/assets/svg/attach-file.svg";
+import BaseInput from "@/components/base/BaseInput.vue"
 import { ref } from "vue";
 
 const message = ref("");
@@ -47,11 +50,11 @@ const message = ref("");
   .input-area {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    gap: 8px;
 
-    .base-input {
+    .chat-input-field {
       flex: 1;
-      margin-right: 8px;
+      min-width: 0;
     }
   }
 
