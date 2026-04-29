@@ -1,0 +1,22 @@
+@import './base.css';
+
+#app {
+  width: 100%;
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 0;
+  font-family: 'Inter', sans-serif;
+}
+
+@media (min-width: 1024px) {
+  body {
+    display: flex;
+    place-items: center;
+  }
+
+  #app {
+    display: flex;
+    padding: 0 ;
+    font-family: 'Inter', sans-serif;
+  }
+}
