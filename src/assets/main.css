@@ -6,6 +6,7 @@
   margin: 0 auto;
   padding: 0;
   font-family: 'Inter', sans-serif;
+  display: flex;
 }
 
 @media (min-width: 1024px) {

@@ -3,39 +3,44 @@
     <BaseModal
       v-model="isOpen"
       align="left"
+      animation="left"
       fullHeight
       width="321px"
+      @close="onClose"
     >
-      <div>
-        <BaseButton
-          variant="text"
-          size="md"
-          align="left"
-          textColor="rgba(100, 116, 139, 1)"
-          class="archived-channels-button"
-          :startIcon="ArchiveIcon"
-          @click="onClose"
+      <div class="modal-content">
+        <div class="modal-header">
+          <BaseButton
+            variant="icon"
+            class="archived-channels-button"
+            @click="onClose"
+          >
+            <img :src="BackIcon" alt="Back" />
+          </BaseButton>
+          <p>Arquivadas</p>
+        </div>
+        <p
+          v-if="store.conversations.filter((c) => c.archived).length === 0"
+          class="no-archived"
         >
-          Voltar
-        </BaseButton>
-        <p>Modal de conversas arquivadas</p>
-      </div>
-      <p
-        v-if="store.conversations.filter((c) => c.archived).length === 0"
-        class="no-archived"
-      >
-        Nenhuma conversa arquivada
-      </p>
-      <div v-else class="archived-channels-list">
-        <CustomChannelListMessage
-          v-for="conversation in store.conversations.filter((c) => c.archived)"
-          :key="conversation.id"
-          :name="conversation.contact.name"
-          :lastMessage="conversation.lastMessage.text"
-          :timestamp="conversation.lastMessage.createdAt"
-          :unreadCount="conversation.unreadCount"
-          :imageUser="conversation.contact.avatar"
-        />
+          Nenhuma conversa arquivada
+        </p>
+        <div
+          v-else
+          class="archived-channels-list "
+          v-for="conversations in store.conversations.filter(
+            (c) => c.archived,
+          )"
+          :key="conversations.id"
+        >
+          <CustomChannelList
+            :name="conversations.contact.name"
+            :lastMessage="conversations.lastMessage"
+            :imageUser="conversations.contact.avatar"
+            :unreadCount="conversations.unreadCount"
+            @click="$emit('select-channel', conversations.id)"
+          />
+        </div>
       </div>
     </BaseModal>
   </div>
@@ -44,8 +49,10 @@
 <script setup lang="ts">
 import { computed } from "vue";
 import BaseModal from "../base/BaseModal.vue";
+import BaseButton from "../base/BaseButton.vue";
 import ArchiveIcon from "@/assets/svg/box-archive.svg";
-import CustomChannelListMessage from "./CustomChannelListMessage.vue";
+import BackIcon from "@/assets/svg/back-icon.svg";
+import CustomChannelList from "./CustomChannelList.vue";
 import { useChatStore } from "@/stores/chatStore";
 
 const store = useChatStore();
@@ -72,6 +79,24 @@ function onClose() {
 .custom-modal-archived {
   position: relative;
   width: 100%;
-  height: 100%;
+
+  .modal-content {
+    height: 100vh;
+    border-right: 1px solid $border-color;
+  }
+
+  .modal-header {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    border-bottom: 1px solid $border-color;
+    padding: 16px;
+  }
+
+  .archived-channels-list {
+    height: 100%;
+    overflow-y: auto;
+    max-height: calc(100vh - 52px);
+  }
 }
 </style>

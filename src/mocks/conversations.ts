@@ -1,4 +1,3 @@
-// src/mocks/conversations.ts
 import img1 from "@/assets/img/img1.jpg";
 import img2 from "@/assets/img/img2.jpg";
 import img3 from "@/assets/img/img3.jpg";
@@ -7,10 +6,11 @@ import img5 from "@/assets/img/img5.jpg";
 import img6 from "@/assets/img/img6.jpg";
 import img7 from "@/assets/img/img7.jpg";
 import img8 from "@/assets/img/img8.jpg";
+import { ConverstionType } from "@/types/conversation";
 
 const avatars = [img1, img2, img3, img4, img5, img6, img7, img8];
 
-export const conversations = [
+export const conversations: ConverstionType[] = [
   {
     id: 1,
     contact: {
