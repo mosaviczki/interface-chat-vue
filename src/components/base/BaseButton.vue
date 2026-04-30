@@ -61,7 +61,7 @@ const props = defineProps<{
     background-color: $primary-color;
     color: #fff;
     &:hover:not(.disabled) {
-      background-color: darken($primary-color, 10%);
+      background-color: $primary-color-hover;
     }
   }
   
@@ -69,14 +69,14 @@ const props = defineProps<{
     background-color: $secondary-color;
     color: $text-secondary;
     &:hover:not(.disabled) {
-      background-color: darken($secondary-color, 10%);
+      background-color: $secondary-color-hover;
     }
   }
   &.contrast {
     background-color: $contrast-color;
     color: #fff;
     &:hover:not(.disabled) {
-      background-color: darken($contrast-color, 10%);
+      background-color: $contrast-color-hover;
     }
   }
   &.text {
@@ -94,14 +94,14 @@ const props = defineProps<{
     background-color: $primary-color;
     color: #fff;
     &:hover:not(.disabled) {
-      background-color: darken($primary-color, 10%);
+      background-color: $primary-color-hover;
     }
   }
   &.outlined {
     border: 1px solid $border-color !important;
     background: transparent;
     &:hover:not(.disabled) {
-      background-color: darken($border-color, 1%);
+      background-color: $border-color;
     }
   }
   &.disabled {

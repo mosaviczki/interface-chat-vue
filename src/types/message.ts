@@ -18,5 +18,4 @@ export type LastMessageType = {
   text: string;
   senderName: string;
   createdAt: string;
-  isTyping?: boolean;
 };

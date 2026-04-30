@@ -6,7 +6,7 @@
         fins de auditoria institucional.</BaseAlert
       >
     </div>
-    <div v-for="message in messages" :key="message.id">
+    <div v-for="message in displayedMessages" :key="message.id">
       <div v-if="shouldShowDateDivider(message.id)" class="date-divider">
         <CustomDividerDate :date="transformatedDate(message.date)" />
       </div>
@@ -74,31 +74,19 @@
 </template>
 
 <script setup lang="ts">
-import { nextTick, ref, watch } from "vue";
+import { computed, nextTick, ref, watch } from "vue";
 import myAvatar from "@/assets/img/img9.jpg";
 import BaseAlert from "@/components/base/BaseAlert.vue";
 import {transformatedDate} from "@/utils/transformatDate.ts";
 import CustomDividerDate from "@/components/custom/CustomDividerDate.vue";
+import type { MessageType } from "@/types/message";
 
 const props = defineProps<{
   user: {
     name: string;
-    image: string;
+    avatar: string;
   };
-  messages: {
-    id: number;
-    senderId: string;
-    senderName: string;
-    text: string;
-    date: string;
-    createdAt: string;
-    file?: {
-      name: string;
-      type: string;
-      sizeKb: number;
-    };
-  }[];
-  isTyping?: boolean;
+  messages: MessageType[];
 }>();
 
 const formatFileType = (fileType: string) => {
@@ -108,13 +96,21 @@ const formatFileType = (fileType: string) => {
   return "Arquivo";
 };
 
+const displayedMessages = computed(() =>
+  props.messages.filter((message) => !message.isTyping),
+);
+
+const isTyping = computed(
+  () => props.messages[props.messages.length - 1]?.isTyping ?? false,
+);
+
 const shouldShowDateDivider = (id: number) => {
   const currentIndex = props.messages.findIndex((message) => message.id === id);
   if (currentIndex === 0) return true;
   if (currentIndex < 0) return false;
   const currentMessage = props.messages[currentIndex];
   const previousMessage = props.messages[currentIndex - 1];
-  return currentMessage.date !== previousMessage.date;
+  return currentMessage?.date !== previousMessage?.date;
 };
 
 const messagesContainer = ref<HTMLElement | null>(null);
@@ -126,7 +122,7 @@ const scrollToBottom = async () => {
 };
 
 watch(
-  () => [props.messages.length, props.isTyping],
+  () => [displayedMessages.value.length, isTyping.value],
   () => {
     scrollToBottom();
   },
@@ -140,12 +136,15 @@ watch(
   display: flex;
   padding: 16px;
   gap: 12px;
+  width: 100%;
+  box-sizing: border-box;
 }
 .date-divider {
   padding: 4px 0;
 }
 .custom-chat-container {
   overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .container-alert {
@@ -201,6 +200,8 @@ watch(
   display: flex;
   flex-direction: column;
   gap: 4px;
+  min-width: 0;
+  max-width: min(78vw, 560px);
 
   .user-name {
     font-weight: 500;
@@ -222,7 +223,7 @@ watch(
     display: flex;
     align-items: center;
     gap: 10px;
-    min-width: 260px;
+    min-width: 0;
   }
 
   .file-icon {
@@ -272,6 +273,35 @@ watch(
     span:nth-child(3) {
       animation-delay: 0.3s;
     }
+  }
+}
+
+.message-bubble {
+  max-width: 100%;
+}
+
+.message-bubble p {
+  margin: 0;
+  word-break: break-word;
+}
+
+@media (max-width: 780px) {
+  .custom-chat-message {
+    padding: 12px;
+    gap: 8px;
+  }
+
+  .custom-chat-message .img-user {
+    width: 34px;
+    height: 34px;
+  }
+
+  .custom-chat-message .message-content {
+    max-width: calc(100vw - 90px);
+  }
+
+  .custom-chat-message .message-content .user-name {
+    font-size: 14px;
   }
 }
 

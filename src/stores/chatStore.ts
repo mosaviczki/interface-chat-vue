@@ -1,43 +1,12 @@
 import { defineStore } from "pinia";
 import { conversations } from "@/mocks/conversations";
-
-type Message = {
-  id: number;
-  senderId: string;
-  senderName?: string;
-  text: string;
-  createdAt: string;
-  date?: string;
-  status: string;
-  file?: {
-    name: string;
-    type: string;
-    sizeKb: number;
-  };
-};
-
-type LastMessage = {
-  text: string;
-  senderName: string;
-  createdAt: string;
-};
-
-type Conversation = {
-  id: number;
-  unreadCount: number;
-  messages: Message[];
-  lastMessage: LastMessage;
-  archived: boolean;
-  contact?: { name?: string };
-  isTyping?: boolean;
-  [key: string]: any;
-};
+import type { ConverstionType } from "@/types/conversation";
 
 const STORAGE_KEY = "chat_conversations_v1";
 
 export const useChatStore = defineStore("chat", {
   state: () => ({
-    conversations: [] as Conversation[],
+    conversations: [] as ConverstionType[],
     selectedConversationId: null as number | null,
     archivedPanelOpen: false,
   }),
@@ -126,10 +95,33 @@ export const useChatStore = defineStore("chat", {
       );
       if (!conversation) return;
 
-      conversation.isTyping = true;
+      const existingTypingIndex = conversation.messages.findIndex(
+        (message) => message.isTyping,
+      );
+
+      if (existingTypingIndex >= 0) {
+        conversation.messages.splice(existingTypingIndex, 1);
+      }
+
+      conversation.messages.push({
+        id: Date.now(),
+        senderId: conversation.contact.id,
+        senderName: conversation.contact.name,
+        text: "",
+        createdAt: this.getNowTime(),
+        date: this.getTodayDate(),
+        isTyping: true,
+      });
 
       setTimeout(() => {
-        conversation.isTyping = false;
+        const typingIndex = conversation.messages.findIndex(
+          (message) => message.isTyping,
+        );
+
+        if (typingIndex >= 0) {
+          conversation.messages.splice(typingIndex, 1);
+        }
+
         const replyText =
           conversation.id === 1
             ? "Perfeito! Recebi sua mensagem."
@@ -143,6 +135,14 @@ export const useChatStore = defineStore("chat", {
         (c) => c.id === conversationId,
       );
       if (!conversation) return;
+
+      const typingIndex = conversation.messages.findIndex(
+        (message) => message.isTyping,
+      );
+
+      if (typingIndex >= 0) {
+        conversation.messages.splice(typingIndex, 1);
+      }
 
       conversation.messages.push({
         id: Date.now(),
@@ -182,8 +182,8 @@ export const useChatStore = defineStore("chat", {
         createdAt: this.getNowTime(),
       };
 
-      this.simulateTyping(conversation.id);
       this.persistConversations();
+      this.simulateTyping(conversation.id);
     },
 
     sendFileMessage(file: { name: string; type: string; sizeKb: number }) {
@@ -207,8 +207,8 @@ export const useChatStore = defineStore("chat", {
         createdAt: this.getNowTime(),
       };
 
-      this.simulateTyping(conversation.id);
       this.persistConversations();
+      this.simulateTyping(conversation.id);
     },
   }
 });

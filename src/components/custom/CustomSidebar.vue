@@ -75,6 +75,10 @@ function handleOpenModalArchivedChannels() {
 
 function handleSelectChannel(id: number) {
   store.selectConversation(id);
+  if (window.innerWidth < 780) {
+    isOpenModalArchivedChannels.value = false;
+    store.setArchivedPanelOpen(false);
+  }
 }
 
 watch(isOpenModalArchivedChannels, (value) => {

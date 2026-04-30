@@ -1,15 +1,14 @@
 <template>
   <div class="custom-chat">
-    <div v-if="store.selectedConversation" class="custom-chat-container">
+    <div v-if="store.selectedConversation && store.selectedConversation.contact" class="custom-chat-container">
       <CustomChatHeader
-        :user="store.selectedConversation.contact"
+        :user="selectedUser"
         class="custom-chat-header"
       />
       <CustomChatMessage
         class="container-chat-message"
         :messages="store.selectedConversation.messages"
         :user="store.selectedConversation.contact"
-        :isTyping="store.selectedConversation.isTyping"
       />
       <CustomChatInput @send="onSendMessage" @send-file="onSendFileMessage" />
     </div>
@@ -29,6 +28,15 @@ import { computed, onMounted, ref } from "vue";
 const store = useChatStore();
 const windowWidth = ref(window.innerWidth);
 const isMobile = computed(() => windowWidth.value < 780);
+
+const selectedUser = computed(() => {
+  const contact = store.selectedConversation?.contact;
+
+  return {
+    avatar: contact?.avatar ?? "",
+    name: contact?.name ?? "",
+  };
+});
 
 onMounted(() => {
   store.initStore();
@@ -58,6 +66,9 @@ const onSendFileMessage = (file: {
   display: flex;
   flex-direction: column;
   height: 100%;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
 
   .custom-chat-container {
     display: flex;

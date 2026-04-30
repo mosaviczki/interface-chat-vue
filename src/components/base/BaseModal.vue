@@ -4,9 +4,9 @@
       v-if="modelValue"
       :class="[
         'base-modal',
+        align ?? 'center',
         { 'full-width': fullWidth, 'full-height': fullHeight },
         { 'no-backdrop-close': closeOnBackdrop === false },
-        variant
       ]"
       @click.self="onBackdropClick"
     >

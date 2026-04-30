@@ -30,5 +30,9 @@ onMounted(() => {
 <style lang="scss" scoped>
 .main-content {
   flex: 1;
+
+  @media screen and (max-width: 780px){
+    max-width: 100vw;
+  } 
 }
 </style>

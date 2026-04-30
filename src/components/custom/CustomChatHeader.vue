@@ -12,13 +12,14 @@
       </div>
     </div>
     <BaseButton
+      class="archive-button"
       variant="outlined"
       size="lg"
       :startIcon="ArchiveIcon"
       textColor="rgba(100, 116, 139, 1)"
       @click="onToggleArchive"
     >
-      {{ isArchived ? "Desarquivar" : "Arquivar" }}
+      {{ isMobile ? "" : isArchived ? "Desarquivar" : "Arquivar" }}
     </BaseButton>
   </div>
 </template>
@@ -32,7 +33,7 @@ import { useChatStore } from "@/stores/chatStore";
 
 const props = defineProps<{
   user: {
-    image: string;
+    avatar: string;
     name: string;
   };
 }>();
@@ -67,11 +68,13 @@ const onBackToList = () => {
     display: flex;
     align-items: center;
     justify-content: flex-start;
+    min-width: 0;
   }
 
   .user-info {
     display: flex;
     align-items: center;
+    min-width: 0;
 
     .chat-user-image {
       width: $icon-size-lg;
@@ -85,7 +88,33 @@ const onBackToList = () => {
       font-size: $font-size-lg;
       font-weight: 500;
       color: $text-primary;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
+  }
+}
+
+@media (max-width: 780px) {
+  .custom-chat-header {
+    padding: 12px;
+    gap: 8px;
+    overflow-x: hidden;
+
+    .user-info .chat-user-image {
+      width: 36px;
+      height: 36px;
+      margin-right: 8px;
+    }
+
+    .user-info h1 {
+      font-size: 20px;
+    }
+  }
+
+  .archive-button {
+    padding-left: 8px !important;
+    padding-right: 8px !important;
   }
 }
 </style>

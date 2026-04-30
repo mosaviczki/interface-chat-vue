@@ -32,7 +32,6 @@ const props = defineProps<{
     text: string;
     createdAt: string;
   };
-  timestamp: string;
   unreadCount: number;
   imageUser?: string;
   maxLength?: number;

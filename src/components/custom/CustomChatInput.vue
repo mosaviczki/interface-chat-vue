@@ -113,6 +113,31 @@ const onFileSelected = (event: Event) => {
   p {
     font-size: $font-size-sm;
     color: $text-primary;
+    word-break: break-word;
+  }
+}
+
+@media (max-width: 780px) {
+  .custom-chat-input {
+    padding: 12px;
+  }
+
+  .custom-chat-input .input-area {
+    gap: 6px;
+  }
+
+  .custom-chat-input .input-area :deep(.base-button) {
+    min-width: 40px;
+  }
+
+  .custom-chat-input .input-area :deep(.base-button.contained) {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  .custom-chat-input p {
+    font-size: 11px;
+    line-height: 1.3;
   }
 }
 </style>

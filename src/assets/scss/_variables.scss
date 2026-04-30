@@ -1,6 +1,11 @@
+@use "sass:color";
+
 $primary-color: rgba(7, 104, 172, 1);
+$primary-color-hover: color.adjust($primary-color, $lightness: -10%);
 $secondary-color: rgba(241, 245, 249, 1);
+$secondary-color-hover: color.adjust($secondary-color, $lightness: -10%);
 $contrast-color: rgba(2, 6, 23, 1);
+$contrast-color-hover: color.adjust($contrast-color, $lightness: -10%);
 $selected-color: rgba(243, 247, 251, 1);
 $border-color: rgba(226, 232, 240, 1);
 $text-primary: rgba(51, 65, 85, 1);
