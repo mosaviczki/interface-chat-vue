@@ -32,8 +32,11 @@
           Conversas arquivadas
         </BaseButton>
       </div>
-      <CustomChannel @select-channel="handleSelectChannel" />
-      <CustomModalArchived v-model="isOpenModalArchivedChannels" onClose="onCloseModal" />
+      <CustomChannel :searchQuery="searchQuery" @select-channel="handleSelectChannel" />
+      <CustomModalArchived
+        v-model="isOpenModalArchivedChannels"
+        @select-channel="handleSelectChannel"
+      />
     </div>
   </aside>
 </template>
@@ -47,11 +50,15 @@ import CustomChannel from "@/components/custom/CustomChannel.vue";
 import CustomModalArchived from "@/components/custom/CustomModalArchived.vue";
 import { useChatStore } from "@/stores/chatStore";
 
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
 
 const store = useChatStore();
 const searchQuery = ref("");
 const isOpenModalArchivedChannels = ref(false);
+
+onMounted(() => {
+  store.initStore();
+});
 
 function onClear() {
   searchQuery.value = "";
@@ -63,10 +70,6 @@ function handleSearchInput(value: string) {
 
 function handleOpenModalArchivedChannels() {
   isOpenModalArchivedChannels.value = true;
-}
-
-function onCloseModal(){
-  isOpenModalArchivedChannels.value = false;
 }
 
 function handleSelectChannel(id: number) {

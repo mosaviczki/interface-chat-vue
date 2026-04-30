@@ -2,8 +2,8 @@
     <div class="custom-chat">
         <div v-if="store.selectedConversation" class="custom-chat-container">
             <CustomChatHeader :user="store.selectedConversation.contact" class="custom-chat-header"/>   
-            <CustomChatMessage class="container-chat-message" :messages="store.selectedConversation.messages" :user="store.selectedConversation.contact" />
-            <CustomChatInput />
+            <CustomChatMessage class="container-chat-message" :messages="store.selectedConversation.messages" :user="store.selectedConversation.contact" :isTyping="store.selectedConversation.isTyping" />
+            <CustomChatInput @send="onSendMessage" @send-file="onSendFileMessage" />
         </div>
         <div v-else class="no-chat-selected">
             <p>Selecione uma conversa para começar</p>
@@ -16,8 +16,22 @@ import CustomChatHeader from "./CustomChatHeader.vue";
 import CustomChatMessage from "./CustomChatMessage.vue";
 import CustomChatInput from "./CustomChatInput.vue";
 import { useChatStore } from "@/stores/chatStore";
+import { onMounted } from "vue";
+
 
 const store = useChatStore();
+
+onMounted(() => {
+  store.initStore();
+});
+
+const onSendMessage = (message: string) => {
+  store.sendMessage(message);
+};
+
+const onSendFileMessage = (file: { name: string; type: string; sizeKb: number }) => {
+  store.sendFileMessage(file);
+};
 </script>
 
 <style lang="scss" scoped>
@@ -46,6 +60,3 @@ const store = useChatStore();
     color: $text-secondary;
 }
 </style>
-
-
-

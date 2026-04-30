@@ -7,6 +7,11 @@ export type MessageType = {
   date: string;
   status?: string;
   isTyping?: boolean;
+  file?: {
+    name: string;
+    type: string;
+    sizeKb: number;
+  };
 };
 
 export type LastMessageType = {

@@ -4,22 +4,34 @@
       <img :src="user.avatar" :alt="user.name" class="chat-user-image" />
       <h1>{{ user.name }}</h1>
     </div>
-    <BaseButton variant="outlined" size="lg" :startIcon="ArchiveIcon" textColor="rgba(100, 116, 139, 1)">
-      Arquivar
+    <BaseButton variant="outlined" size="lg" :startIcon="ArchiveIcon" textColor="rgba(100, 116, 139, 1)" @click="onToggleArchive">
+      {{ isArchived ? "Desarquivar" : "Arquivar" }}
     </BaseButton>
   </div>
 </template>
 
 <script setup lang="ts">
+import { computed } from "vue";
 import ArchiveIcon from "@/assets/svg/box-archive.svg";
 import BaseButton from "@/components/base/BaseButton.vue";
+import { useChatStore } from "@/stores/chatStore";
 
-defineProps<{
+const props = defineProps<{
   user: {
     image: string;
     name: string;
   };
 }>();
+
+const store = useChatStore();
+
+const isArchived = computed(() => !!store.selectedConversation?.archived);
+
+const onToggleArchive = () => {
+  const selectedId = store.selectedConversation?.id;
+  if (!selectedId) return;
+  store.toggleArchiveConversation(selectedId);
+};
 </script>
 
 <style lang="scss" scoped>

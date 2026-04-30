@@ -7,7 +7,7 @@
     <div class="user-info">
       <h2>{{ name }}</h2>
       <p v-if="lastMessage.senderName === 'me'">Você: {{ truncatedText }}</p>
-      <p v-else>{{ lastMessage.senderName }}: {{ truncatedText }}</p>
+      <p v-else>{{ lastMessage.senderName.split(" ")[0] }}: {{ truncatedText }}</p>
     </div>
     <div class="message-meta">
       <span class="timestamp">{{ lastMessage.createdAt }}</span>

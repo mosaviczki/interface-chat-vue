@@ -1,5 +1,5 @@
 <template>
-  <div class="custom-channel" v-for="conversations in store.conversations.filter(c => !c.archived)" :key="conversations.id">
+  <div class="custom-channel" v-for="conversations in filteredConversations" :key="conversations.id">
     <CustomChannelList
       :name="conversations.contact.name"
       :lastMessage="conversations.lastMessage"
@@ -11,10 +11,23 @@
 </template>
 
 <script setup lang="ts">
+import { computed } from "vue";
 import CustomChannelList from "@/components/custom/CustomChannelList.vue";
 import { useChatStore } from '@/stores/chatStore'
 
 const store = useChatStore()
+const props = defineProps<{
+  searchQuery?: string;
+}>();
+
+const filteredConversations = computed(() => {
+  const query = (props.searchQuery ?? "").trim().toLowerCase();
+  return store.conversations.filter((conversation) => {
+    if (conversation.archived) return false;
+    if (!query) return true;
+    return (conversation.contact?.name ?? "").toLowerCase().includes(query);
+  });
+});
 
 defineEmits<{
   (e: "select-channel", id: string | number): void;

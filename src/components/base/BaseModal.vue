@@ -5,9 +5,10 @@
       :class="[
         'base-modal',
         { 'full-width': fullWidth, 'full-height': fullHeight },
+        { 'no-backdrop-close': closeOnBackdrop === false },
         variant
       ]"
-      @click.self="onClose"
+      @click.self="onBackdropClick"
     >
       <div
         :class="['modal-content', rounded]"
@@ -29,6 +30,7 @@ const props = defineProps<{
   modelValue?: boolean;
   rounded?: boolean;
   animation?: "left" | "top" | "bottom" | "right";
+  closeOnBackdrop?: boolean;
 }>();
 
 const emit = defineEmits<{
@@ -39,6 +41,11 @@ const emit = defineEmits<{
 function onClose() {
   emit("update:modelValue", false);
   emit("close");
+}
+
+function onBackdropClick() {
+  if (props.closeOnBackdrop === false) return;
+  onClose();
 }
 </script>
 
@@ -85,6 +92,14 @@ function onClose() {
   &.left {
     justify-content: flex-start;
   }
+}
+
+.base-modal.no-backdrop-close {
+  pointer-events: none;
+}
+
+.base-modal.no-backdrop-close .modal-content {
+  pointer-events: auto;
 }
 
 // Transição padrão (fade + scale)

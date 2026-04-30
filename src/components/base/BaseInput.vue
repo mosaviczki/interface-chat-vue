@@ -15,7 +15,19 @@
       alt="Start Icon"
       class="start-icon"
     />
+    <textarea
+      v-if="multiline"
+      :disabled="disabled"
+      :value="value"
+      :placeholder="placeholder"
+      :maxlength="maxLength"
+      rows="1"
+      @input="onInput"
+      @keydown="onKeydown"
+      @focus="onTextareaResize"
+    />
     <input
+      v-else
       :type="
         variant === 'password'
           ? 'password'
@@ -26,7 +38,9 @@
       :disabled="disabled"
       :value="value"
       :placeholder="placeholder"
-      @input="handleInput ? handleInput($event.target.value) : null"
+      :maxlength="maxLength"
+      @input="onInput"
+      @keydown="onKeydown"
     />
     <img v-if="endIcon" :src="endIcon" alt="End Icon" class="end-icon" />
     <BaseButton
@@ -42,12 +56,13 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from "vue";
 import BaseButton from "@/components/base/BaseButton.vue";
 
-defineProps<{
+const props = defineProps<{
   variant?: "text" | "password" | "email" | "search";
   outlined?: boolean;
+  multiline?: boolean;
+  maxLength?: number;
   size?: "lg" | "md" | "sm";
   disabled?: boolean;
   border?: boolean;
@@ -58,6 +73,37 @@ defineProps<{
   onClear?: () => void;
   handleInput?: (value: string) => void;
 }>();
+
+const emit = defineEmits<{
+  (e: "input", value: string): void;
+  (e: "keydown", event: KeyboardEvent): void;
+}>();
+
+const onInput = (event: Event) => {
+  const target = event.target as HTMLInputElement | HTMLTextAreaElement;
+  if (target instanceof HTMLTextAreaElement) {
+    resizeTextarea(target);
+  }
+  props.handleInput?.(target.value);
+  emit("input", target.value);
+};
+
+const onKeydown = (event: KeyboardEvent) => {
+  emit("keydown", event);
+};
+
+const resizeTextarea = (element: HTMLTextAreaElement) => {
+  const lineHeight = 20;
+  const maxRows = 10;
+  const maxHeight = lineHeight * maxRows;
+  element.style.height = "auto";
+  element.style.height = `${Math.min(element.scrollHeight, maxHeight)}px`;
+  element.style.overflowY = element.scrollHeight > maxHeight ? "auto" : "hidden";
+};
+
+const onTextareaResize = (event: FocusEvent) => {
+  resizeTextarea(event.target as HTMLTextAreaElement);
+};
 </script>
 
 <style lang="scss" scoped>
@@ -79,7 +125,8 @@ defineProps<{
 .base-input-wrapper.border {
   border: 1px solid $border-color;
 }
-.base-input-wrapper input {
+.base-input-wrapper input,
+.base-input-wrapper textarea {
   flex: 1;
   border: none;
   background: transparent;
@@ -87,6 +134,8 @@ defineProps<{
   font-size: 14px;
   color: $text-primary;
   outline: none;
+  resize: none;
+  line-height: 20px;
 
   &:disabled {
     color: $text-secondary;

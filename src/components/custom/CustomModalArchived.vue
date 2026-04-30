@@ -6,6 +6,7 @@
       animation="left"
       fullHeight
       width="321px"
+      :closeOnBackdrop="false"
       @close="onClose"
     >
       <div class="modal-content">
@@ -27,7 +28,7 @@
         </p>
         <div
           v-else
-          class="archived-channels-list "
+          class="archived-channels-list"
           v-for="conversations in store.conversations.filter(
             (c) => c.archived,
           )"
@@ -38,7 +39,7 @@
             :lastMessage="conversations.lastMessage"
             :imageUser="conversations.contact.avatar"
             :unreadCount="conversations.unreadCount"
-            @click="$emit('select-channel', conversations.id)"
+            @click="handleSelectArchivedChannel(conversations.id)"
           />
         </div>
       </div>
@@ -63,6 +64,7 @@ const props = defineProps<{
 
 const emit = defineEmits<{
   (e: "update:modelValue", value: boolean): void;
+  (e: "select-channel", id: number): void;
 }>();
 
 const isOpen = computed({
@@ -72,6 +74,10 @@ const isOpen = computed({
 
 function onClose() {
   isOpen.value = false;
+}
+
+function handleSelectArchivedChannel(id: number) {
+  emit("select-channel", id);
 }
 </script>
 
@@ -83,6 +89,10 @@ function onClose() {
   .modal-content {
     height: 100vh;
     border-right: 1px solid $border-color;
+
+    .no-archived{
+      padding: 16px
+    }
   }
 
   .modal-header {
@@ -94,7 +104,6 @@ function onClose() {
   }
 
   .archived-channels-list {
-    height: 100%;
     overflow-y: auto;
     max-height: calc(100vh - 52px);
   }
