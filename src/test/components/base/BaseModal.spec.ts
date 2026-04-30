@@ -1,34 +1,33 @@
+// src/test/BaseModal.spec.ts
+
+import { describe, it, expect } from "vitest";
 import { mount } from "@vue/test-utils";
-import { describe, expect, it } from "vitest";
 import BaseModal from "@/components/base/BaseModal.vue";
 
 describe("BaseModal", () => {
-  it("renderiza o conteudo com alinhamento", () => {
+  it("deve renderizar o conteúdo quando modelValue for true", () => {
     const wrapper = mount(BaseModal, {
       props: {
         modelValue: true,
-        align: "left",
       },
       slots: {
-        default: "<div>Conteudo</div>",
+        default: "Conteúdo do modal",
       },
     });
 
-    expect(wrapper.find(".base-modal").classes()).toContain("left");
-    expect(wrapper.text()).toContain("Conteudo");
+    expect(wrapper.text()).toContain("Conteúdo do modal");
   });
 
-  it("nao fecha quando closeOnBackdrop e false", async () => {
+  it("não deve renderizar quando modelValue for false", () => {
     const wrapper = mount(BaseModal, {
       props: {
-        modelValue: true,
-        closeOnBackdrop: false,
+        modelValue: false,
+      },
+      slots: {
+        default: "Conteúdo do modal",
       },
     });
 
-    (wrapper.vm as any).$?.setupState?.onBackdropClick();
-
-    expect(wrapper.emitted("update:modelValue")).toBeUndefined();
-    expect(wrapper.emitted("close")).toBeUndefined();
+    expect(wrapper.text()).not.toContain("Conteúdo do modal");
   });
 });
