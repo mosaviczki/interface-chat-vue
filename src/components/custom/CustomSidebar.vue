@@ -50,7 +50,7 @@ import CustomChannel from "@/components/custom/CustomChannel.vue";
 import CustomModalArchived from "@/components/custom/CustomModalArchived.vue";
 import { useChatStore } from "@/stores/chatStore";
 
-import { onMounted, ref } from "vue";
+import { onMounted, ref, watch } from "vue";
 
 const store = useChatStore();
 const searchQuery = ref("");
@@ -70,11 +70,16 @@ function handleSearchInput(value: string) {
 
 function handleOpenModalArchivedChannels() {
   isOpenModalArchivedChannels.value = true;
+  store.setArchivedPanelOpen(true);
 }
 
 function handleSelectChannel(id: number) {
   store.selectConversation(id);
 }
+
+watch(isOpenModalArchivedChannels, (value) => {
+  store.setArchivedPanelOpen(value);
+});
 </script>
 
 <style lang="scss" scoped>
@@ -118,6 +123,12 @@ function handleSelectChannel(id: number) {
     width: 100%;
     padding-left: 10.5px;
     padding-right: 10.5px;
+  }
+}
+
+@media (max-width: 780px) {
+  .custom-sidebar {
+    width: 100%;
   }
 }
 </style>

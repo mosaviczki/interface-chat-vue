@@ -39,6 +39,7 @@ export const useChatStore = defineStore("chat", {
   state: () => ({
     conversations: [] as Conversation[],
     selectedConversationId: null as number | null,
+    archivedPanelOpen: false,
   }),
 
   getters: {
@@ -88,6 +89,14 @@ export const useChatStore = defineStore("chat", {
         conversation.unreadCount = 0;
         this.persistConversations();
       }
+    },
+
+    clearSelectedConversation() {
+      this.selectedConversationId = null;
+    },
+
+    setArchivedPanelOpen(value: boolean) {
+      this.archivedPanelOpen = value;
     },
 
     archiveConversation(id: number) {

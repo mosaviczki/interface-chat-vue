@@ -69,7 +69,10 @@ const emit = defineEmits<{
 
 const isOpen = computed({
   get: () => props.modelValue ?? false,
-  set: (value) => emit("update:modelValue", value),
+  set: (value) => {
+    emit("update:modelValue", value);
+    store.setArchivedPanelOpen(value);
+  },
 });
 
 function onClose() {
@@ -106,6 +109,12 @@ function handleSelectArchivedChannel(id: number) {
   .archived-channels-list {
     overflow-y: auto;
     max-height: calc(100vh - 52px);
+  }
+}
+
+@media (max-width: 780px) {
+  .custom-modal-archived :deep(.modal-content) {
+    width: 100% !important;
   }
 }
 </style>
