@@ -45,14 +45,21 @@ Interface de uma Central de Comunicação (Chat) com base no layout disponibiliz
 - Vitest
 
 ## Decisões técnicas
+- Adotei Pinia para concentrar o estado do chat, facilitando a comunicação entre sidebar, área principal e modais.
+- Os dados iniciais são mockados e persistidos em `localStorage`, permitindo demonstrar o fluxo da aplicação sem depender de backend.
+- O estado "digitando..." foi modelado como uma mensagem temporária na lista, evitando estados paralelos e simplificando a renderização.
+- Foi implementado testes bases com Vitest por serem testes simples de componentes, visto que ele possui uma boa performace de execução e integração nativa com Vite.
+- A interface foi pensada para ser responsiva com adaptação para mobile.
 
-## Estrutura do projeto
+## Estrutura do Projeto
+```
 src/
-  assets/        # Imagens, ícones e variáveis de estilo
-  components/    # Componentes reutilizáveis e da interface do chat
-  layout/        # Estrutura base da aplicação
-  mocks/         # Dados simulados para conversas e usuários
-  stores/        # Estado global com Pinia
-  test/          # Testes unitários com Vitest
-  types/         # Tipos TypeScript
-  utils/         # Funções utilitárias
+├── assets/           # Static assets (images, styles)
+├── components/       # Reusable UI components
+├── layout/           # Application layout structure
+├── mocks/            # Mocked data for development/testing
+├── stores/           # Global state management (Pinia)
+├── test/             # Unit tests (Vitest)
+├── types/            # TypeScript type definitions
+└── utils/            # Helper and utility functions
+```
