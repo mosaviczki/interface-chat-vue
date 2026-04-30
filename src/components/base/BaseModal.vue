@@ -5,6 +5,7 @@
       :class="[
         'base-modal',
         align ?? 'center',
+        { bounded },
         { 'full-width': fullWidth, 'full-height': fullHeight },
         { 'no-backdrop-close': closeOnBackdrop === false },
       ]"
@@ -27,6 +28,7 @@ const props = defineProps<{
   height?: string;
   fullWidth?: boolean;
   fullHeight?: boolean;
+  bounded?: boolean;
   modelValue?: boolean;
   rounded?: boolean;
   animation?: "left" | "top" | "bottom" | "right";
@@ -79,6 +81,10 @@ function onBackdropClick() {
   &.full-height .modal-content {
     height: 100%;
     max-height: none;
+  }
+
+  &.bounded .modal-content {
+    margin-left: max(0px, calc((100vw - 1600px) / 2));
   }
 
   &.center {

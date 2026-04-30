@@ -333,6 +333,8 @@ watch(
 .message-bubble p {
   margin: 0;
   word-break: break-word;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
 }
 
 @media (max-width: 780px) {

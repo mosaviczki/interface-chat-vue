@@ -4,6 +4,7 @@
       v-model="isOpen"
       align="left"
       animation="left"
+      bounded
       fullHeight
       width="321px"
       :closeOnBackdrop="false"

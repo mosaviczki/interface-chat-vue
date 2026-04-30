@@ -68,6 +68,26 @@ describe("useChatStore", () => {
     expect(store.conversations[0]!.lastMessage.text).toBe("Olá");
   });
 
+  it("deve preservar quebras de linha no texto enviado", () => {
+    const store = useChatStore();
+
+    store.conversations = [
+      {
+        id: 1,
+        archived: false,
+        contact: { id: "1", name: "Maria" },
+        messages: [],
+        lastMessage: null,
+      } as any,
+    ];
+
+    store.selectConversation(1);
+    store.sendMessage("Linha 1\nLinha 2");
+
+    expect(store.conversations[0]!.messages[0]!.text).toBe("Linha 1\nLinha 2");
+    expect(store.conversations[0]!.lastMessage.text).toBe("Linha 1\nLinha 2");
+  });
+
   it("deve receber uma mensagem", () => {
     const store = useChatStore();
 
