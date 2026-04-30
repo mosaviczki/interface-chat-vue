@@ -4,6 +4,7 @@
       'base-button',
       variant,
       size,
+      color,
       align ? align : 'left',
       { disabled },
     ]"
@@ -43,6 +44,7 @@ const props = defineProps<{
   border: 1px solid transparent;
   border-radius: $radius;
   cursor: pointer;
+
   &.left {
     justify-content: flex-start;
   }
@@ -62,6 +64,7 @@ const props = defineProps<{
       background-color: darken($primary-color, 10%);
     }
   }
+  
   &.secondary {
     background-color: $secondary-color;
     color: $text-secondary;
@@ -97,6 +100,9 @@ const props = defineProps<{
   &.outlined {
     border: 1px solid $border-color !important;
     background: transparent;
+    &:hover:not(.disabled) {
+      background-color: darken($border-color, 1%);
+    }
   }
   &.disabled {
     background-color: $border-color;
@@ -104,19 +110,19 @@ const props = defineProps<{
     cursor: not-allowed;
   }
   &.lg {
-    padding-top: 8.75px;
-    padding-bottom: 8.75px;
+    padding: 8.75px 12.25px;
   }
   &.md {
-    padding-top: 6.25px;
-    padding-bottom: 6.25px;
+    padding: 6.25px 8.75px;
   }
   &.sm {
-    padding-top: 3.75px;
-    padding-bottom: 3.75px;
+    padding: 3.75px 5.25px;
   }
   .start-icon {
     margin-right: 7px;
+  }
+  .end-icon{
+    margin-left: 7px;
   }
 }
 </style>

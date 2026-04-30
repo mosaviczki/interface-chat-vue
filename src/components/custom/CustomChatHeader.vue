@@ -4,14 +4,16 @@
       <img :src="user.avatar" :alt="user.name" class="chat-user-image" />
       <h1>{{ user.name }}</h1>
     </div>
-    <BaseButton variant="outlined" size="lg" :startIcon="ArchiveIcon">
-      <p>Arquivar</p>
+    <BaseButton variant="outlined" size="lg" :startIcon="ArchiveIcon" textColor="rgba(100, 116, 139, 1)">
+      Arquivar
     </BaseButton>
   </div>
 </template>
 
 <script setup lang="ts">
 import ArchiveIcon from "@/assets/svg/box-archive.svg";
+import BaseButton from "@/components/base/BaseButton.vue";
+
 defineProps<{
   user: {
     image: string;

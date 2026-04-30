@@ -15,12 +15,13 @@
         <img :src="AttachIcon" alt="Anexar" />
       </BaseButton>
       <BaseButton
-        variant="text"
-        size="md"
-        :startIcon="SendIcon"
+        variant="contained"
+        size="lg"
+        color="primary"
+        :endIcon="SendIcon"
         @click="$emit('send')"
       >
-        <p>Enviar</p>
+        Enviar
       </BaseButton>
     </div>
     <p>
@@ -33,7 +34,8 @@
 <script setup lang="ts">
 import SendIcon from "@/assets/svg/send-icon.svg";
 import AttachIcon from "@/assets/svg/attach-file.svg";
-import BaseInput from "@/components/base/BaseInput.vue"
+import BaseInput from "@/components/base/BaseInput.vue";
+import BaseButton from "@/components/base/BaseButton.vue";
 import { ref } from "vue";
 
 const message = ref("");

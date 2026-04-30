@@ -1,5 +1,11 @@
 <template>
   <div class="custom-chat-container">
+    <div class="container-alert">
+      <BaseAlert variant="warning"
+        >Todas as conversas podem ser visualizadas pelo gestor do sistema para
+        fins de auditoria institucional.</BaseAlert
+      >
+    </div>
     <div v-for="message in messages" :key="message.id">
       <div
         v-if="message.senderId === 'me'"
@@ -31,12 +37,13 @@
 <script setup lang="ts">
 import { computed } from "vue";
 import myAvatar from "@/assets/img/img9.jpg";
+import BaseAlert from "@/components/base/BaseAlert.vue";
 
 const props = defineProps<{
   user: {
     name: string;
     image: string;
-  }
+  };
   messages: {
     id: number;
     senderId: string;
@@ -60,6 +67,12 @@ const senderName = computed(() => {
   display: flex;
   padding: 16px;
   gap: 12px;
+}
+
+.container-alert {
+  padding: 16px;
+  display: block;
+  margin: 0 auto;
 }
 
 .alignment-left {
