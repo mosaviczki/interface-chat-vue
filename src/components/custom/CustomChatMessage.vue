@@ -1,5 +1,12 @@
 <template>
-  <div ref="messagesContainer" class="custom-chat-container">
+  <div
+    ref="messagesContainer"
+    class="custom-chat-container"
+    role="log"
+    aria-live="polite"
+    aria-relevant="additions text"
+    aria-atomic="false"
+  >
     <div class="container-alert">
       <BaseAlert variant="warning"
         >Todas as conversas podem ser visualizadas pelo gestor do sistema para
@@ -20,11 +27,14 @@
           <div class="message-bubble">
             <template v-if="message.file">
               <div class="file-message">
-                <div class="file-icon">PDF</div>
+                <div class="file-icon" :class="getFileTone(message.file)">
+                  {{ getFileBadge(message.file) }}
+                </div>
                 <div class="file-info">
                   <p class="file-name">{{ message.file.name }}</p>
                   <p class="file-meta">
-                    {{ formatFileType(message.file.type) }} • {{ message.file.sizeKb }} KB
+                    {{ getFileTypeLabel(message.file) }} •
+                    {{ message.file.sizeKb }} KB
                   </p>
                 </div>
               </div>
@@ -41,11 +51,14 @@
           <div class="message-bubble">
             <template v-if="message.file">
               <div class="file-message">
-                <div class="file-icon">PDF</div>
+                <div class="file-icon" :class="getFileTone(message.file)">
+                  {{ getFileBadge(message.file) }}
+                </div>
                 <div class="file-info">
                   <p class="file-name">{{ message.file.name }}</p>
                   <p class="file-meta">
-                    {{ formatFileType(message.file.type) }} • {{ message.file.sizeKb }} KB
+                    {{ getFileTypeLabel(message.file) }} •
+                    {{ message.file.sizeKb }} KB
                   </p>
                 </div>
               </div>
@@ -56,7 +69,13 @@
         </div>
       </div>
     </div>
-    <div v-if="isTyping" class="custom-chat-message alignment-left">
+    <div
+      v-if="isTyping"
+      class="custom-chat-message alignment-left"
+      role="status"
+      aria-live="polite"
+      aria-atomic="true"
+    >
       <img :src="user.avatar" :alt="user.name" class="img-user" />
       <div class="message-content">
         <p class="user-name">{{ user.name }}</p>
@@ -77,8 +96,9 @@
 import { computed, nextTick, ref, watch } from "vue";
 import myAvatar from "@/assets/img/img9.jpg";
 import BaseAlert from "@/components/base/BaseAlert.vue";
-import {transformatedDate} from "@/utils/transformatDate.ts";
+import { transformatedDate } from "@/utils/transformatDate.ts";
 import CustomDividerDate from "@/components/custom/CustomDividerDate.vue";
+import { getFileBadge, getFileTone, getFileTypeLabel } from "@/utils/fileType";
 import type { MessageType } from "@/types/message";
 
 const props = defineProps<{
@@ -88,13 +108,6 @@ const props = defineProps<{
   };
   messages: MessageType[];
 }>();
-
-const formatFileType = (fileType: string) => {
-  if (fileType.includes("pdf")) return "PDF";
-  if (fileType.includes("word")) return "DOCX";
-  if (fileType.includes("image")) return "Imagem";
-  return "Arquivo";
-};
 
 const displayedMessages = computed(() =>
   props.messages.filter((message) => !message.isTyping),
@@ -128,7 +141,6 @@ watch(
   },
   { immediate: true },
 );
-
 </script>
 
 <style lang="scss" scoped>
@@ -139,9 +151,11 @@ watch(
   width: 100%;
   box-sizing: border-box;
 }
+
 .date-divider {
   padding: 4px 0;
 }
+
 .custom-chat-container {
   overflow-y: auto;
   overflow-x: hidden;
@@ -168,6 +182,13 @@ watch(
       color: $text-secondary;
       font-weight: 500;
     }
+
+    .file-info {
+      .file-name,
+      .file-meta {
+        color: $text-secondary;
+      }
+    }
   }
 }
 
@@ -186,6 +207,17 @@ watch(
       font-size: $font-size-md;
       color: #fff;
       font-weight: 500;
+    }
+
+    .file-message {
+      color: #fff;
+    }
+
+    .file-info {
+      .file-name,
+      .file-meta {
+        color: #fff;
+      }
     }
   }
 }
@@ -227,20 +259,38 @@ watch(
   }
 
   .file-icon {
-    background: #e11d48;
     color: #fff;
     font-weight: 700;
     font-size: 12px;
     border-radius: 6px;
     padding: 8px 6px;
     line-height: 1;
+
+    &.tone-pdf {
+      background: #e11d48;
+    }
+
+    &.tone-doc {
+      background: #2563eb;
+    }
+
+    &.tone-sheet {
+      background: #16a34a;
+    }
+
+    &.tone-image {
+      background: #9333ea;
+    }
+
+    &.tone-other {
+      background: #6b7280;
+    }
   }
 
   .file-info {
     .file-name {
       font-size: 14px;
       font-weight: 500;
-      color: inherit;
       margin: 0;
       word-break: break-word;
     }

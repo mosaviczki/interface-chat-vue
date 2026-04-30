@@ -9,27 +9,32 @@
         border
         outlined
         placeholder="Escreva uma mensagem"
+        aria-label="Campo de mensagem"
         :value="message"
         @input="message = $event"
         @keydown="onInputKeydown"
       />
 
-      <BaseButton variant="icon" size="md" @click="emit('attach')">
+      <BaseButton
+        variant="outlined"
+        size="md"
+        aria-label="Anexar arquivo"
+        @click="onAttachClick"
+      >
+        <img :src="AttachIcon" alt="" aria-hidden="true" />
+      </BaseButton>
       <input
         ref="fileInput"
         type="file"
         class="hidden-file-input"
         @change="onFileSelected"
       />
-      </BaseButton>
-      <BaseButton variant="outlined" size="md" @click="onAttachClick">
-        <img :src="AttachIcon" alt="Anexar" />
-      </BaseButton>
       <BaseButton
         variant="contained"
         size="lg"
         color="primary"
         :endIcon="SendIcon"
+        aria-label="Enviar mensagem"
         @click="onSend"
       >
         Enviar

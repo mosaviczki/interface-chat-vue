@@ -55,8 +55,13 @@ const truncatedText = computed(() => {
   padding: 12px 16px;
   border: none;
   background-color: transparent;
+  transition: background-color 0.15s ease;
 
-  .selected {
+  &:hover:not(.selected) {
+    background-color: $selected-color;
+  }
+
+  &.selected {
     background-color: $selected-color;
   }
 

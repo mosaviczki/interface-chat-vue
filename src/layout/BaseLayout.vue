@@ -6,7 +6,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, ref } from "vue";
+import { computed, onMounted, onUnmounted, ref } from "vue";
 import Sidebar from '@/components/custom/CustomSidebar.vue';
 import { useChatStore } from "@/stores/chatStore";
 
@@ -20,10 +20,16 @@ const showSidebar = computed(() => {
   return !store.selectedConversationId;
 });
 
+const onResize = () => {
+  windowWidth.value = window.innerWidth;
+};
+
 onMounted(() => {
-  window.addEventListener("resize", () => {
-    windowWidth.value = window.innerWidth;
-  });
+  window.addEventListener("resize", onResize);
+});
+
+onUnmounted(() => {
+  window.removeEventListener("resize", onResize);
 });
 </script>
 

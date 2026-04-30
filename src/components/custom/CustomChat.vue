@@ -23,7 +23,7 @@ import CustomChatHeader from "./CustomChatHeader.vue";
 import CustomChatMessage from "./CustomChatMessage.vue";
 import CustomChatInput from "./CustomChatInput.vue";
 import { useChatStore } from "@/stores/chatStore";
-import { computed, onMounted, ref } from "vue";
+import { computed, onMounted, onUnmounted, ref } from "vue";
 
 const store = useChatStore();
 const windowWidth = ref(window.innerWidth);
@@ -41,6 +41,10 @@ const selectedUser = computed(() => {
 onMounted(() => {
   store.initStore();
   window.addEventListener("resize", onResize);
+});
+
+onUnmounted(() => {
+  window.removeEventListener("resize", onResize);
 });
 
 const onResize = () => {

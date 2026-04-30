@@ -5,8 +5,8 @@
         <h1>Central de Comunicação</h1>
         <p>Comunicação interna</p>
       </div>
-      <BaseButton variant="icon" size="lg">
-        <img src="@/assets/svg/add-comment.svg" alt="Add Comment" />
+      <BaseButton variant="icon" size="lg" aria-label="Nova conversa">
+        <img src="@/assets/svg/add-comment.svg" alt="" aria-hidden="true" />
       </BaseButton>
     </div>
     <div class="channels">

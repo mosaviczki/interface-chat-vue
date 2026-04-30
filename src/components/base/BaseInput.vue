@@ -12,7 +12,8 @@
     <img
       v-if="startIcon"
       :src="startIcon"
-      alt="Start Icon"
+      alt=""
+      aria-hidden="true"
       class="start-icon"
     />
     <textarea
@@ -20,6 +21,7 @@
       :disabled="disabled"
       :value="value"
       :placeholder="placeholder"
+      :aria-label="ariaLabel"
       :maxlength="maxLength"
       rows="1"
       @input="onInput"
@@ -38,24 +40,27 @@
       :disabled="disabled"
       :value="value"
       :placeholder="placeholder"
+      :aria-label="ariaLabel"
       :maxlength="maxLength"
       @input="onInput"
       @keydown="onKeydown"
     />
-    <img v-if="endIcon" :src="endIcon" alt="End Icon" class="end-icon" />
+    <img v-if="endIcon" :src="endIcon" alt="" aria-hidden="true" class="end-icon" />
     <BaseButton
-      v-if="variant === 'search' && value.length > 0"
+      v-if="variant === 'search' && inputValue.length > 0"
       variant="icon"
       size="sm"
       class="clear-button"
+      aria-label="Limpar busca"
       @click="onClear"
     >
-      <img src="@/assets/svg/close.svg" alt="Clear Search" />
+      <img src="@/assets/svg/close.svg" alt="" aria-hidden="true" />
     </BaseButton>
   </div>
 </template>
 
 <script setup lang="ts">
+import { computed } from "vue";
 import BaseButton from "@/components/base/BaseButton.vue";
 
 const props = defineProps<{
@@ -68,11 +73,14 @@ const props = defineProps<{
   border?: boolean;
   value?: string;
   placeholder?: string;
+  ariaLabel?: string;
   startIcon?: string;
   endIcon?: string;
   onClear?: () => void;
   handleInput?: (value: string) => void;
 }>();
+
+const inputValue = computed(() => props.value ?? "");
 
 const emit = defineEmits<{
   (e: "input", value: string): void;

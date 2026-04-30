@@ -14,9 +14,10 @@
           <BaseButton
             variant="icon"
             class="archived-channels-button"
+            aria-label="Voltar"
             @click="onClose"
           >
-            <img :src="BackIcon" alt="Back" />
+            <img :src="BackIcon" alt="" aria-hidden="true" />
           </BaseButton>
           <p>Arquivadas</p>
         </div>
@@ -39,6 +40,7 @@
             :lastMessage="conversations.lastMessage"
             :imageUser="conversations.contact.avatar"
             :unreadCount="conversations.unreadCount"
+            :selected="store.selectedConversationId === conversations.id"
             @click="handleSelectArchivedChannel(conversations.id)"
           />
         </div>
@@ -51,7 +53,6 @@
 import { computed } from "vue";
 import BaseModal from "../base/BaseModal.vue";
 import BaseButton from "../base/BaseButton.vue";
-import ArchiveIcon from "@/assets/svg/box-archive.svg";
 import BackIcon from "@/assets/svg/back-icon.svg";
 import CustomChannelList from "./CustomChannelList.vue";
 import { useChatStore } from "@/stores/chatStore";

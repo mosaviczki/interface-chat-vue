@@ -1,5 +1,6 @@
 <template>
   <button
+    type="button"
     :class="[
       'base-button',
       variant,
@@ -14,11 +15,12 @@
     <img
       v-if="startIcon"
       :src="startIcon"
-      alt="Start Icon"
+      alt=""
+      aria-hidden="true"
       class="start-icon"
     />
     <slot />
-    <img v-if="endIcon" :src="endIcon" alt="End Icon" class="end-icon" />
+    <img v-if="endIcon" :src="endIcon" alt="" aria-hidden="true" class="end-icon" />
   </button>
 </template>
 

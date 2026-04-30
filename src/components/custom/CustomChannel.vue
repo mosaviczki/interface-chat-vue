@@ -5,6 +5,7 @@
       :lastMessage="conversations.lastMessage"
       :imageUser="conversations.contact.avatar"
       :unreadCount="conversations.unreadCount"
+      :selected="store.selectedConversationId === conversations.id"
       @click="$emit('select-channel', conversations.id)"
     />
   </div>
@@ -30,7 +31,7 @@ const filteredConversations = computed(() => {
 });
 
 defineEmits<{
-  (e: "select-channel", id: string | number): void;
+  (e: "select-channel", id: number): void;
 }>();
 </script>
 
