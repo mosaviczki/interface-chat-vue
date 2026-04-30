@@ -1,19 +1,33 @@
 <template>
   <div class="custom-chat-header">
-    <div class="user-info">
-      <img :src="user.avatar" :alt="user.name" class="chat-user-image" />
-      <h1>{{ user.name }}</h1>
+    <div class="container-info">
+      <div v-if="isMobile" class="mobile-chat-back">
+        <BaseButton variant="icon" class="back-button" @click="onBackToList">
+          <img :src="BackIcon" alt="Back" />
+        </BaseButton>
+      </div>
+      <div class="user-info">
+        <img :src="user.avatar" :alt="user.name" class="chat-user-image" />
+        <h1>{{ user.name }}</h1>
+      </div>
     </div>
-    <BaseButton variant="outlined" size="lg" :startIcon="ArchiveIcon" textColor="rgba(100, 116, 139, 1)" @click="onToggleArchive">
+    <BaseButton
+      variant="outlined"
+      size="lg"
+      :startIcon="ArchiveIcon"
+      textColor="rgba(100, 116, 139, 1)"
+      @click="onToggleArchive"
+    >
       {{ isArchived ? "Desarquivar" : "Arquivar" }}
     </BaseButton>
   </div>
 </template>
 
 <script setup lang="ts">
-import { computed } from "vue";
+import { computed, ref } from "vue";
 import ArchiveIcon from "@/assets/svg/box-archive.svg";
 import BaseButton from "@/components/base/BaseButton.vue";
+import BackIcon from "@/assets/svg/back-icon.svg";
 import { useChatStore } from "@/stores/chatStore";
 
 const props = defineProps<{
@@ -27,10 +41,17 @@ const store = useChatStore();
 
 const isArchived = computed(() => !!store.selectedConversation?.archived);
 
+const windowWidth = ref(window.innerWidth);
+const isMobile = computed(() => windowWidth.value < 780);
+
 const onToggleArchive = () => {
   const selectedId = store.selectedConversation?.id;
   if (!selectedId) return;
   store.toggleArchiveConversation(selectedId);
+};
+
+const onBackToList = () => {
+  store.clearSelectedConversation();
 };
 </script>
 
@@ -41,6 +62,12 @@ const onToggleArchive = () => {
   justify-content: space-between;
   padding: 19px 16px;
   border-bottom: 1px solid $border-color;
+
+  .container-info {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+  }
 
   .user-info {
     display: flex;
