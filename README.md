@@ -1,6 +1,11 @@
 ## Project Setup
-
+### Requirements
 ```sh
+node: ^20.19.0 || >=22.12.0
+```
+### Init
+```sh
+git clone https://github.com/mosaviczki/interface-chat-vue.git
 npm install
 ```
 
