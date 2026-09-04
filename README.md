@@ -68,3 +68,14 @@ src/
 ├── types/            # TypeScript type definitions
 └── utils/            # Helper and utility functions
 ```
+
+## Imagens do projeto
+<img width="650" height="300" alt="image" src="https://github.com/user-attachments/assets/abfd4554-ede7-40a1-96ae-0de0362806cd" />
+<img width="170" height="300" alt="image" src="https://github.com/user-attachments/assets/9f0896dd-6693-4189-8d8b-2587aaa90728" />
+<hr>
+<img width="650" height="300" alt="image" src="https://github.com/user-attachments/assets/7443fd37-e3f9-4ba9-bc18-797e8d124d78" />
+<img width="170" height="300" alt="image" src="https://github.com/user-attachments/assets/b5f7c1b7-2ab7-4677-bb75-65ee23fe2286" />
+
+
+
+
